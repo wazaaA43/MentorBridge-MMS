@@ -11,12 +11,12 @@ A development-relationship platform (not a booking system) that helps the right 
 | Matete   | Front end                 |
 | Ndzalama | Back end                  |
 | Mpho     | Database / matching logic |
-| Lerato   | Authentication            |
+| Lerato   | Dashboards / Reporting, Authentication |
 
 ## Tech Stack
-- Front end: HTML + CSS + JavaScript
+- Front end: HTML/CSS/JavaScript
 - Back end: Node.js + Express
-- Database: MSSQL
+- Database: SQLite (via better-sqlite3)
 - Hosting: TBD
 
 ## Project Structure
@@ -25,17 +25,30 @@ A development-relationship platform (not a booking system) that helps the right 
 /docs - README, architecture diagram, user guide, roadmap, contribution statement
 
 ## Requirements Checklist
-- [ ] A. Mentor profile & expertise
-- [ ] B. Mentee profile & development needs
-- [ ] C. Matching (explainable results)
-- [ ] D. Assignment & capacity
-- [ ] E. Availability & booking
-- [ ] F. Attendance, notes & actions
-- [ ] G. Feedback & outcomes
-- [ ] H. Dashboards & hours reporting
+- [x] A. Mentor profile & expertise
+- [x] B. Mentee profile & development needs
+- [x] C. Matching (explainable results)
+- [x] D. Assignment & capacity
+- [x] E. Availability & booking
+- [x] F. Attendance, notes & actions
+- [x] G. Feedback & outcomes
+- [x] H. Dashboards & hours reporting
 
 ## Getting Started
-Setup instructions to be added once the stack is finalised.
+1. Clone the repo: `git clone https://github.com/<your-org-or-username>/MentorBridge-MMS.git`
+2. Backend: `cd backend`, run `npm install`, then `node app.js`
+3. The SQLite database is created automatically on first run (from `schema.sql`) - no separate database setup needed
+4. Frontend: open `frontend/index.html` in your browser
 
 ## Known Limitations
-TBD.
+- No automated test suite; testing was done manually during the 7-day build
+- No password-reset flow for authentication
+- No email/SMS notifications for bookings or matches
+- Matching algorithm is rule-based, not machine-learning driven
+- Limited mobile responsiveness; optimised for desktop browsers
+- No production-grade error handling/logging yet
+
+## Roadmap
+- **30 days:** automated tests, mobile responsiveness, password reset
+- **60 days:** email/SMS notifications for bookings and matches
+- **90 days:** smarter weighted matching, analytics/export for reporting
