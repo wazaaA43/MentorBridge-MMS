@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MentorBridge | Development Relationship System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============ LOGIN / LANDING SCREEN ============ -->
+  <section id="login-screen" class="login-container">
+    <div class="login-card">
+      <div class="brand-header">
+        <h1>Mentor<span>Bridge</span></h1>
+        <p class="tagline">From good intentions to structured development</p>
+      </div>
+
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input id="login-email" type="email" autocomplete="username" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" autocomplete="current-password" placeholder="Your password" required />
+        </div>
+
+        <p id="login-error" class="form-error hidden"></p>
+        <button id="login-submit" type="submit" class="btn-primary btn-large">Sign In &rarr;</button>
+        <p id="login-hint" class="muted login-hint hidden">Connecting to the server — the free host can take up to a minute to wake up...</p>
+      </form>
+
+      <div class="demo-box">
+        <p class="muted">Demo accounts (password <strong>Password123!</strong>) — click to fill:</p>
+        <div class="chip-row">
+          <button type="button" class="chip" onclick="fillDemo('admin@example.com')">Admin</button>
+          <button type="button" class="chip" onclick="fillDemo('coach@example.com')">Coach</button>
+          <button type="button" class="chip" onclick="fillDemo('thandi.mokoena@example.com')">Mentor (at capacity)</button>
+          <button type="button" class="chip" onclick="fillDemo('kagiso.mahlangu@example.com')">Mentee (matched)</button>
+          <button type="button" class="chip" onclick="fillDemo('nomsa.buthelezi@example.com')">Mentee (no mentor yet)</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MAIN APP PLATFORM (HIDDEN INITIALLY) ============ -->
+  <div id="main-app" class="hidden">
+
+    <!-- Top Navigation -->
+    <header class="navbar">
+      <div class="logo">
+        <h1>Mentor<span>Bridge</span></h1>
+      </div>
+      <nav>
+        <span id="user-badge" class="user-badge"></span>
+        <button class="nav-btn" data-role="mentee" onclick="switchRole('mentee')">My Mentoring</button>
+        <button class="nav-btn" data-role="mentor" onclick="switchRole('mentor')">Mentor Portal</button>
+        <button class="nav-btn" data-role="admin" onclick="switchRole('admin')">Admin Dashboard</button>
+        <button class="nav-btn btn-logout" onclick="handleLogout()">Sign Out</button>
+      </nav>
+    </header>
+
+    <!-- Dynamic Container -->
+    <main id="app-container" class="container">
+
+      <!-- MENTEE VIEW -->
+      <section id="mentee-view" class="role-view hidden">
+        <div class="view-header">
+          <div>
+            <h2 id="mentee-view-title">Find Your Mentor</h2>
+            <p>Explainable matching against your goals, expertise needs, availability, mode and language.</p>
+          </div>
+        </div>
+
+        <div class="subtabs">
+          <button class="subtab-btn active" data-tab="match" onclick="menteeSubTab('match')">Find a Mentor</button>
+          <button class="subtab-btn" data-tab="dashboard" onclick="menteeSubTab('dashboard')">My Dashboard</button>
+        </div>
+
+        <div id="mentee-match-panel" class="subtab-panel active">
+          <div id="mentee-current-mentor"></div>
+          <div id="mentor-match-grid" class="cards-grid"></div>
+        </div>
+
+        <div id="mentee-dashboard-panel" class="subtab-panel">
+          <div id="mentee-dashboard-content"></div>
+        </div>
+      </section>
+
+      <!-- MENTOR VIEW -->
+      <section id="mentor-view" class="role-view hidden">
+        <div class="view-header">
+          <div>
+            <h2 id="mentor-view-title">Mentor Portal</h2>
+            <p id="mentor-view-sub">Manage your mentees, sessions, actions and capacity.</p>
+          </div>
+        </div>
+
+        <div id="capacity-indicator" class="capacity-bar"></div>
+
+        <div class="subtabs">
+          <button class="subtab-btn active" data-tab="mentees" onclick="mentorSubTab('mentees')">My Mentees</button>
+          <button class="subtab-btn" data-tab="sessions" onclick="mentorSubTab('sessions')">Sessions</button>
+          <button class="subtab-btn" data-tab="actions" onclick="mentorSubTab('actions')">Actions</button>
+          <button class="subtab-btn" data-tab="dashboard" onclick="mentorSubTab('dashboard')">Hours &amp; Metrics</button>
+        </div>
+
+        <div id="mentor-mentees-panel" class="subtab-panel active">
+          <div id="assigned-mentees" class="cards-grid"></div>
+        </div>
+        <div id="mentor-sessions-panel" class="subtab-panel">
+          <div id="mentor-sessions-content" class="list-panel"></div>
+        </div>
+        <div id="mentor-actions-panel" class="subtab-panel">
+          <div id="mentor-actions-content" class="list-panel"></div>
+        </div>
+        <div id="mentor-dashboard-panel" class="subtab-panel">
+          <div id="mentor-dashboard-content"></div>
+        </div>
+      </section>
+
+      <!-- ADMIN VIEW -->
+      <section id="admin-view" class="role-view hidden">
+        <div class="view-header">
+          <div>
+            <h2>Programme Administration</h2>
+            <p id="admin-view-sub">Mentoring hours, capacity, matching and assignment.</p>
+          </div>
+        </div>
+
+        <div class="subtabs">
+          <button class="subtab-btn active" data-tab="overview" onclick="adminSubTab('overview')">Overview</button>
+          <button class="subtab-btn" data-tab="assign" onclick="adminSubTab('assign')">Match &amp; Assign</button>
+          <button class="subtab-btn" data-tab="mentors" onclick="adminSubTab('mentors')">Mentors &amp; Capacity</button>
+        </div>
+
+        <div id="admin-overview-panel" class="subtab-panel active">
+          <div id="admin-overview-content"></div>
+        </div>
+        <div id="admin-assign-panel" class="subtab-panel">
+          <div id="admin-assign-content"></div>
+        </div>
+        <div id="admin-mentors-panel" class="subtab-panel">
+          <div id="admin-mentors-content"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-team">
+      <h3>Built by The Visionaries</h3>
+      <div class="team-badges">
+        <span><strong>Matete Magomane:</strong> Front-End Lead</span> |
+        <span><strong>Mpho Lukhele:</strong> Back-End Lead</span> |
+        <span><strong>Leah Melamu:</strong> DB Lead</span> |
+        <span><strong>Lerato Kanono:</strong> Matching Engine</span> |
+        <span><strong>Ndzalama Malungane:</strong> QA &amp; Hosting</span>
+      </div>
+    </footer>
+  </div>
+
+  <div id="modal-root"></div>
+  <div id="toast-root"></div>
+
+  <script src="script.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
