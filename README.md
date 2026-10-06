@@ -36,12 +36,12 @@ A development-relationship platform (not a booking system) that helps the right 
 
 ## Getting Started
 1. Clone the repo: `git clone https://github.com/<your-org-or-username>/MentorBridge-MMS.git`
-2. Backend: `cd backend`, run `npm install`, then `node app.js`
+2. Backend: `cd backend`, run `npm install`, `npm run seed` (optional demo data), then `npm start` (API on http://localhost:3000)
 3. The SQLite database is created automatically on first run (from `schema.sql`) - no separate database setup needed
 4. Frontend: open `frontend/index.html` in your browser
 
 ## Known Limitations
-- No automated test suite; testing was done manually during the 7-day build
+- Automated tests cover scoring and reporting (`npm test` in `backend`); the rest was tested manually
 - No password-reset flow for authentication
 - No email/SMS notifications for bookings or matches
 - Matching algorithm is rule-based, not machine-learning driven
